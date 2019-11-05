@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { AuthappService } from '../services/authapp.service';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  selector: 'app-logout',
+  templateUrl: './logout.component.html',
+  styleUrls: ['./logout.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class LogoutComponent implements OnInit {
 
   constructor(private BasicAuth: AuthappService) { }
 
   ngOnInit() {
-    
+    this.BasicAuth.clearAll();
   }
 
 }

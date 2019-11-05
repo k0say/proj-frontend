@@ -12,6 +12,7 @@ import { ArticoliComponent } from './articoli/articoli.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { JumbotronComponent } from './jumbotron/jumbotron.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { JumbotronComponent } from './jumbotron/jumbotron.component';
     NavbarComponent,
     FooterComponent,
     JumbotronComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
