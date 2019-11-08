@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SalutiDataService } from '../serives/data/saluti-data.service';
+import { SalutiDataService } from '../services/data/saluti-data.service';
 
 @Component({
   selector: 'app-welcome',
@@ -24,9 +24,8 @@ export class WelcomeComponent implements OnInit {
   getSaluti() {
     console.log(this.salutiSrv.getSaluti());
     this.salutiSrv.getSaluti().subscribe(
-      response => {
-        return this.handleResponse(response);
-      },
+        response => this.handleResponse(response)
+      ,
       error => this.handleError(error)
     );
   }
