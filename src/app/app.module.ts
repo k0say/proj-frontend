@@ -15,6 +15,7 @@ import { JumbotronComponent } from './jumbotron/jumbotron.component';
 import { LogoutComponent } from './logout/logout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NewartComponent } from './newart/newart.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FooterComponent,
     JumbotronComponent,
     LogoutComponent,
+    NewartComponent,
   ],
   imports: [
     BrowserModule,
