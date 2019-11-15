@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Articoli, ApiMsg } from 'src/app/articoli/articoli.component';
+import { Articoli, ApiMsg, Iva, FamAss } from 'src/app/articoli/articoli.component';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,22 +11,38 @@ export class ArticoliDataService {
   server = "localhost";
   port = "5051";
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient:HttpClient) { }
 
   getArticoliByDescription(descrizione: string) {
-    return this.httpClient.get<Articoli[]>(`http://${this.server}:${this.port}/api/articoli/cerca/descrizione/${descrizione}`);
+    return this.httpClient.get<Articoli[]>(`http://${this.server}:${this.port}/api/articoli/cerca/descrizione/${descrizione}`); //ALT + 0096 | ALT GR + '
+    
   }
 
-
-  getArticoliByCodeArt(codart: string) {
+  getArticoliByCodArt(codart: string) {
     return this.httpClient.get<Articoli>(`http://${this.server}:${this.port}/api/articoli/cerca/codice/${codart}`);
+
   }
 
   getArticoliByEan(barcode: string) {
     return this.httpClient.get<Articoli>(`http://${this.server}:${this.port}/api/articoli/cerca/barcode/${barcode}`);
   }
 
-  delArticoloByCodeArt(codart: string)  {
+  getIva() {
+    return this.httpClient.get<Iva>(`http://${this.server}:${this.port}/api/iva`);  
+    
+  }
+
+  getCat() {
+    return this.httpClient.get<FamAss>(`http://${this.server}:${this.port}/api/cat`);  
+    
+  }
+
+  delArticoloByCodArt(codart: string) {
     return this.httpClient.delete<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/elimina/${codart}`);
   }
+
+  updArticolo(articolo: Articoli) {
+    return this.httpClient.put<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/modifica`, articolo);
+  }
+  
 }

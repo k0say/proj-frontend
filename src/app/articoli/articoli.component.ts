@@ -5,21 +5,40 @@ import { ArticoliDataService } from '../services/data/articoli-data.service';
 // la dichiaro in articoli piuttosto che fare un file solo per la classe
 export class Articoli {
   constructor(
-    public codart: string,
+    public codArt: string,
     public descrizione: string,
     public um: string,
     public pzcart: number,
     public peso: number,
     public prezzo: number,
     public isactive: boolean,
-    public data: Date) { }
+    public data: Date,
+    public idFamAss: number,
+    public idIva: number,
+    public idStatoArt: string
+  ) { }
+}
+
+export class Iva {
+  constructor(
+    public idIva: number,
+    public descrizione: string,
+    public aliquota: number
+  ) { }
+}
+
+export class FamAss {
+  constructor(
+    public id: number,
+    public descrizione: string
+  ) { }
 }
 
 export class ApiMsg {
   constructor(
     public code: string,
     public message: string
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -28,7 +47,7 @@ export class ApiMsg {
   styleUrls: ['./articoli.component.css']
 })
 export class ArticoliComponent implements OnInit {
-  
+
   apiMsg: ApiMsg;
   messaggio: string;
 
@@ -40,7 +59,8 @@ export class ArticoliComponent implements OnInit {
   filter = '';
   articolo: Articoli;
   articoli: Articoli[]
-
+  service:Number
+    
   constructor(private route: ActivatedRoute, private router: Router, private articoliService: ArticoliDataService) { }
 
   ngOnInit() {
@@ -56,7 +76,8 @@ export class ArticoliComponent implements OnInit {
   }
 
   public getArticoli(filter: string) {
-    this.articoliService.getArticoliByCodeArt(filter).subscribe(
+
+    this.articoliService.getArticoliByCodArt(filter).subscribe(
       response => {
 
         this.articoli = [];
@@ -111,11 +132,11 @@ export class ArticoliComponent implements OnInit {
       }
     )
   }
-  
+
   Elimina(CodArt: string) {
     console.log(`Eliminazione articolo ${CodArt}`);
 
-    this.articoliService.delArticoloByCodeArt(CodArt).subscribe(
+    this.articoliService.delArticoloByCodArt(CodArt).subscribe(
       response => {
         this.apiMsg = response;
         this.messaggio = this.apiMsg.message;
@@ -124,7 +145,7 @@ export class ArticoliComponent implements OnInit {
     )
   }
 
-  Modifica(CodArt: string)  {
+  Modifica(CodArt: string) {
     console.log(`Modifica articolo ${CodArt}`);
     this.router.navigate(['newart', CodArt]);
   }
