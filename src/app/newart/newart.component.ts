@@ -15,18 +15,19 @@ export class NewartComponent implements OnInit {
   articolo: Articoli;
   Conferma: string = '';
   Errore: string = '';
+  IsModifica: boolean = false;
 
   apiMsg: ApiMsg;
 
-  Iva : Iva;
-  Cat: FamAss; 
-  
+  Iva: Iva;
+  Cat: FamAss;
+
   constructor(private route: ActivatedRoute, private articoliService: ArticoliDataService) { }
 
   ngOnInit() {
 
     //Inizializziamo l'articolo
-    this.articolo = new Articoli("-1","","",0,0,0,true,new Date(), 1, 22,"");
+    this.articolo = new Articoli("-1", "", "", 0, 0, 0, true, new Date(), 1, 22, "");
 
     this.CodArt = this.route.snapshot.params['codart'];
 
@@ -45,54 +46,88 @@ export class NewartComponent implements OnInit {
     //Otteniamo i dati della famiglia assortimento
     this.articoliService.getCat().subscribe(
       response => {
-          this.Cat = response;
-          console.log(this.Cat);
+        this.Cat = response;
+        console.log(this.Cat);
       },
       error => {
         console.log(error);
       }
     )
-    
-    //Otteniamo i dati dell'articolo
-    this.articoliService.getArticoliByCodArt(this.CodArt).subscribe(
-      response => {
 
-        this.articolo = response;
-        console.log(this.articolo); 
-      },
-      error => {
-        console.log(error);
-      }
-    )
+    if (this.CodArt != "-1") {
+      this.IsModifica = true;
+      //Otteniamo i dati dell'articolo
+      this.articoliService.getArticoliByCodArt(this.CodArt).subscribe(
+        response => {
+
+          this.articolo = response;
+          console.log(this.articolo);
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
+    else {
+      this.IsModifica = false;
+    }
+
   }
 
   salva() {
 
     console.log(this.articolo);
-    
-    this.articoliService.updArticolo(this.articolo).subscribe(
-     
-      response => { 
-        console.log(response);
 
-        this.apiMsg = response;
-        this.Conferma = this.apiMsg.message;
-        
-        console.log(this.Conferma);
+    if (this.IsModifica) {
+      this.articoliService.updArticolo(this.articolo).subscribe(
 
-       
-      },
-      error => {
+        response => {
+          console.log(response);
 
-        console.log(error);
+          this.apiMsg = response;
+          this.Conferma = this.apiMsg.message;
 
-        this.apiMsg = error.error;
-        this.Errore =  this.apiMsg.message;
-        
-        console.log(this.Errore);
+          console.log(this.Conferma);
 
-      
+        },
+        error => {
+
+          console.log(error);
+
+          this.apiMsg = error.error;
+          this.Errore = this.apiMsg.message;
+
+          console.log(this.Errore);
+
+        }
+      )
+    } else {
+      {
+        this.articoliService.insArticolo(this.articolo).subscribe(
+
+          response => {
+            console.log(response);
+
+            this.apiMsg = response;
+            this.Conferma = this.apiMsg.message;
+
+            console.log(this.Conferma);
+
+          },
+          error => {
+
+            console.log(error);
+
+            this.apiMsg = error.error;
+            this.Errore = this.apiMsg.message;
+
+            console.log(this.Errore);
+
+
+          }
+        )
       }
-    )
+    }
   }
+
 }
